@@ -21,8 +21,21 @@ for i in servidor_de_tiempo:
 else:
     print("No hay servidores disponibles, verifique su conexion a internet e intente más tarde")
     exit()
-print ("hora de inicio de la petición = %s" %t1.time())
-t2=datetime.datetime.now()
 
-t1 = datetime.datetime.now()
-print ("Fecha y hora = %s" % t1)
+t2=datetime.datetime.now()
+petdelay= datetime.datetime.strptime(ctime(respuesta.tx_time), "%a %b %d %H:%M:%S %Y")
+indelay=(t2-t1)/2
+delay=petdelay+indelay
+print ("hora de inicio de la petición = %s" %t1.time())
+print ("hora de llegada de la petición = %s " %t2.time())
+print ("Fecha/hora que se recibió del servidor de tiempo =%s " %petdelay)
+print ("tiempo de retraso del paquete = %s " %indelay)
+print ("hora/fecha que se va a cambiar en la computadora local= %s " %delay)
+
+try:
+    os.system('date --set "%s"' %delay)
+    os.system('hwclock --set --date="%s"' %delay)
+except:
+    print("\n\nHa ocurrido un error\n\n")
+    exit("Recuerde iniciar este programa con root")
+print("\n\nLa fecha se ha cambiado exitosamente.")
