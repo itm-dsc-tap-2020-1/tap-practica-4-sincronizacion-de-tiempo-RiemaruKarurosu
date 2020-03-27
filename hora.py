@@ -16,7 +16,7 @@ for i in servidor_de_tiempo:
         cont+=1
         break
     except:
-        print("Fallo "+cont)
+        print("Fallo %s" %cont)
         continue
 else:
     print("No hay servidores disponibles, verifique su conexion a internet e intente más tarde")
