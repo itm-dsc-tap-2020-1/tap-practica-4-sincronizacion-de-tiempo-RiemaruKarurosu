@@ -2,6 +2,7 @@
 import datetime
 import ntplib
 import os
+import sys
 from time import ctime
 
 #Comunicacion con el servidor
@@ -31,11 +32,11 @@ print ("hora de llegada de la petición = %s " %t2.time())
 print ("Fecha/hora que se recibió del servidor de tiempo =%s " %petdelay)
 print ("tiempo de retraso del paquete = %s " %indelay)
 print ("hora/fecha que se va a cambiar en la computadora local= %s " %delay)
-
-try:
-    os.system('date --set "%s"' %delay)
-    os.system('hwclock --set --date="%s"' %delay)
-except:
-    print("\n\nHa ocurrido un error\n\n")
+if os.geteuid() != 0:
+    print ('Debes tener privilegios root.')
+    print("\n\nHa ocurrido un error al cambiar la fecha y hora del dispositivo\n\n")
     exit("Recuerde iniciar este programa con root")
+    sys.exit(1)
+os.system('date --set "%s"' %delay)
+os.system('hwclock --set --date="%s"' %delay)
 print("\n\nLa fecha se ha cambiado exitosamente.")
